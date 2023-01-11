@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="./desktop.css" media="only screen and (min-width:401px)" />
+    <style type="text/css">
+
+    </style>
+    <title>여고추리반</title>
+</head>
+
+<body>
+    <div id="skipNav">
+    </div>
+    <hr class="hidden" />
+
+    <div id="wrap">
+        <div id="header">
+            <h1 id="logo"><img src="./img/logo1.png" width="200" height="39" alt="LOGO" /></h1>
+            <h2 class="noVisible">메인메뉴</h2>
+            <ul id="menu">
+                <li class="current"><a href="./index.html">HOME</a></li>
+                <li><a href="./character.html">CHARACTER</a></li>
+                <li><a href="./guessing.html">GUESSING</a></li>
+                <li><a href="./behind.html">BEHIND</a></li>
+            </ul>
+
+        </div>
+        <hr class="hidden" />
+
+        <div id="quiz"> </div>
+     <button id="submit" style="border:1px solid tomato; margin:2px; border-radius:5px; color:tomato;"> Submit </button>
+<div id="result"> </div>
+
+<script>
+
+//Model
+const quizData = [
+     {
+         question : '선우경-구영선, 렛미모=메소밀 와 같이 단어의 구조를 배열하여 전혀 다른 단어를 만들어내는 것을 무엇이라 하는가?',
+         answers : {
+            a : "다이어그램",
+            b : "애너그램",
+            c : "나노그램"
+         },
+        correct : 'b'
+     },
+     {
+         question : '시즌1에서 전학 첫날 교무실에서 피자를 훔친 범인은?',
+         answers : {
+             a : '피자배달부',
+             b : '교장선생님',
+             c : '다른반 학생'
+         },
+        correct : 'a'
+     },
+     {
+           question : '선우경이 가스실에서 열쇠를 담은 통에 넣은 용액은?',
+           answers : {
+                 a : '피라냐 용액',
+                 b : '염산',
+                 c : '황산'
+           },
+        correct : 'a'
+     }
+]
+
+ const quizDisplay = document.getElementById('quiz');
+ const submitBtn = document.getElementById('submit');
+ const resultDisplay = document.getElementById('result');
+ 
+ function buildQuiz(){
+      const output = [ ]; 
+       quizData.forEach(  
+           (currentQuestion, questionNum) => { 
+                       const answers = [ ];     
+                       for(item in currentQuestion.answers){  
+                                   answers.push(`<label>
+                                                <input type="radio" name="question${questionNum}" value="${item}">
+                                                    ${item} : ${currentQuestion.answers[item]}
+                                                </label>`);
+                          }
+                             output.push(`<div class="question"> ${currentQuestion.question}</div>
+                                          <div class="answer">${answers.join('')}</div>`);
+                    }              
+       );
+          quizDisplay.innerHTML = output.join('</br>');
+    }
+	
+ function showResult(){
+         const answerDisplays = quizDisplay.querySelectorAll('.answer');  
+           let numCorrect = 0; 
+
+            quizData.forEach( (currentQuestion, questionNum)=>{
+                   const answerDisplay = answerDisplays[questionNum]; 
+                   const selector = `input[name=question${questionNum}]:checked`;  
+                   const userAnswer = (answerDisplay.querySelector(selector) || {}).value;  
+
+
+                    if(userAnswer === currentQuestion.correct){    
+                            numCorrect++;
+                            answerDisplays[questionNum].style.color = 'lightgreen';
+                    }else{
+                            answerDisplays[questionNum].style.color = 'red';
+                    }
+            });
+              resultDisplay.innerHTML = `${numCorrect} out of ${quizData.length}`; 
+    }
+
+    buildQuiz(); 
+    submitBtn.addEventListener('click',showResult);   
+
+</script>
+
+        <address id="footer">
+            오시는길 &copy; tving original 여고추리반 <br />
+            <i></i><span> 전화 : **-***-****</span>
+            <a href="https://www.tving.com/contents/P001537909/"><i></i>
+                <div>어서와 준비 됐어?</div>
+            </a>
+        </address>
+    </div>
+</body>
+
+</html>
